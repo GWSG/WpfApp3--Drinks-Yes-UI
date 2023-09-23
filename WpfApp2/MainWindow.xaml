@@ -1,0 +1,47 @@
+﻿<Window x:Class="WpfApp2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="570" Width="785">
+    <Grid>
+        <StackPanel Margin="110,28,210,250" Background="#FFFAF7EB">
+            <StackPanel Orientation="Horizontal" Height="40">
+                <Label Content="紅茶大杯" FontWeight="Bold" FontSize="18" Width="165" VerticalAlignment="Center"/>
+                <Label Content="60元" FontSize="18" Width="145" Background="{x:Null}" Foreground="#FFF75858" FontWeight="Bold" VerticalAlignment="Center"/>
+                <TextBox Width="100" TextChanged="TextBox_TextChanged" Height="32" VerticalAlignment="Center" TextAlignment="Right" VerticalContentAlignment="Center" FontSize="16" Foreground="#FF1E75CB"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="40">
+                <Label Content="紅茶小杯" FontWeight="Bold" FontSize="18" Width="165" VerticalAlignment="Center"/>
+                <Label Content="40元" FontSize="18" Width="145" Background="{x:Null}" Foreground="#FFF75858" FontWeight="Bold" VerticalAlignment="Center"/>
+                <TextBox Width="100" TextChanged="TextBox_TextChanged" Height="32" VerticalAlignment="Center" TextAlignment="Right" VerticalContentAlignment="Center" FontSize="16" Foreground="#FF1E75CB"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="40">
+                <Label Content="綠茶大杯" FontWeight="Bold" FontSize="18" Width="165" VerticalAlignment="Center"/>
+                <Label Content="60元" FontSize="18" Width="145" Background="{x:Null}" Foreground="#FFF75858" FontWeight="Bold" VerticalAlignment="Center"/>
+                <TextBox Width="100" TextChanged="TextBox_TextChanged" Height="32" VerticalAlignment="Center" TextAlignment="Right" VerticalContentAlignment="Center" FontSize="16" Foreground="#FF1E75CB"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="40">
+                <Label Content="綠茶小杯" FontWeight="Bold" FontSize="18" Width="165" VerticalAlignment="Center"/>
+                <Label Content="40元" FontSize="18" Width="145" Background="{x:Null}" Foreground="#FFF75858" FontWeight="Bold" VerticalAlignment="Center"/>
+                <TextBox Width="100" TextChanged="TextBox_TextChanged" Height="32" VerticalAlignment="Center" TextAlignment="Right" VerticalContentAlignment="Center" FontSize="16" Foreground="#FF1E75CB"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="40">
+                <Label Content="咖啡大杯" FontWeight="Bold" FontSize="18" Width="165" VerticalAlignment="Center"/>
+                <Label Content="80元" FontSize="18" Width="145" Background="{x:Null}" Foreground="#FFF75858" FontWeight="Bold" VerticalAlignment="Center"/>
+                <TextBox Width="100" TextChanged="TextBox_TextChanged" Height="32" VerticalAlignment="Center" TextAlignment="Right" VerticalContentAlignment="Center" FontSize="16" Foreground="#FF1E75CB"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="40">
+                <Label Content="咖啡小杯" FontWeight="Bold" FontSize="18" Width="165" VerticalAlignment="Center"/>
+                <Label Content="50元" FontSize="18" Width="145" Background="{x:Null}" Foreground="#FFF75858" FontWeight="Bold" VerticalAlignment="Center"/>
+                <TextBox Width="100" TextChanged="TextBox_TextChanged" Height="32" VerticalAlignment="Center" TextAlignment="Right" VerticalContentAlignment="Center" FontSize="16" Foreground="#FF1E75CB"/>
+            </StackPanel>
+        </StackPanel>
+        <Button x:Name="OrderButton" Content="確定訂購" HorizontalAlignment="Left" Margin="645,28,0,0" VerticalAlignment="Top" Height="65" Width="100" IsCancel="True" FontSize="18" Click="OrderButton_Click"/>
+        <TextBlock x:Name="textblock1" HorizontalAlignment="Center" Margin="0,333,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="180" Width="705" Background="#FFF9EBEB" FontSize="16"/>
+    </Grid>
+
+
+</Window>
