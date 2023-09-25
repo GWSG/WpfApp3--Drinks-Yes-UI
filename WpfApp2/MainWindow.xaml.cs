@@ -7,40 +7,43 @@ using System.Windows.Media;
 
 namespace WpfApp2
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        // 建立兩個字典，用來存儲飲料品項和訂單
         Dictionary<string, int> drinks = new Dictionary<string, int>();
         Dictionary<string, int> orders = new Dictionary<string, int>();
         string takeout = "";
+
         public MainWindow()
         {
             InitializeComponent();
 
-            //新增所有飲料品項
+            // 新增所有飲料品項到字典
             AddNewDrink(drinks);
 
-            //顯示飲料品項菜單
+            // 顯示飲料品項菜單
             DisplayDrinkMenu(drinks);
         }
 
         private void DisplayDrinkMenu(Dictionary<string, int> myDrinks)
         {
+            // 顯示飲料菜單的函式
             foreach (var drink in myDrinks)
             {
+                // 建立一個水平排列的 StackPanel
                 StackPanel sp = new StackPanel();
                 sp.Orientation = Orientation.Horizontal;
 
+                // 建立一個勾選框 (CheckBox) 來選擇飲料
                 CheckBox cb = new CheckBox();
-                cb.Content = $"{drink.Key} : {drink.Value}元";
+                cb.Content = $"{drink.Key} : {drink.Value}元"; // 顯示飲料名稱和價格
                 cb.Width = 200;
                 cb.FontFamily = new FontFamily("Consolas");
                 cb.FontSize = 18;
                 cb.Foreground = Brushes.Blue;
                 cb.Margin = new Thickness(5);
 
+                // 建立一個滑桿 (Slider) 來選擇數量
                 Slider sl = new Slider();
                 sl.Width = 100;
                 sl.Value = 0;
@@ -48,6 +51,7 @@ namespace WpfApp2
                 sl.Maximum = 10;
                 sl.IsSnapToTickEnabled = true;
 
+                // 建立一個標籤 (Label) 顯示選擇的數量
                 Label lb = new Label();
                 lb.Width = 50;
                 lb.Content = "0";
@@ -55,21 +59,24 @@ namespace WpfApp2
                 lb.FontSize = 18;
                 lb.Foreground = Brushes.Red;
 
+                // 將勾選框、滑桿、標籤添加到 StackPanel 中
                 sp.Children.Add(cb);
                 sp.Children.Add(sl);
                 sp.Children.Add(lb);
 
-                //資料繫結
+                // 資料繫結，將滑桿的值繫結到標籤的內容
                 Binding myBinding = new Binding("Value");
                 myBinding.Source = sl;
                 lb.SetBinding(ContentProperty, myBinding);
 
+                // 將 StackPanel 添加到主介面的 StackPanel 中
                 stackpanel_DrinkMenu.Children.Add(sp);
             }
         }
 
         private void AddNewDrink(Dictionary<string, int> myDrinks)
         {
+            // 新增飲料品項到字典
             myDrinks.Add("紅茶大杯", 60);
             myDrinks.Add("紅茶小杯", 40);
             myDrinks.Add("綠茶大杯", 60);
@@ -82,7 +89,7 @@ namespace WpfApp2
 
         private void OrderButton_Click(object sender, RoutedEventArgs e)
         {
-            //將訂購的飲料加入訂單
+            // 點擊訂購按鈕後的函式
             PlaceOrder(orders);
 
             double total = 0.0;
@@ -90,6 +97,7 @@ namespace WpfApp2
             string displayString = $"本次訂購為{takeout}，清單如下：\n";
             string message = "";
 
+            // 計算訂單的總價格
             foreach (KeyValuePair<string, int> item in orders)
             {
                 string drinkName = item.Key;
@@ -99,7 +107,7 @@ namespace WpfApp2
                 displayString += $"{drinkName} X {amount}杯，每杯{price}元，總共{price * amount}元\n";
             }
 
-
+            // 根據總價格套用折扣
             if (total >= 500)
             {
                 message = "訂購滿500元以上者打8折";
@@ -122,11 +130,13 @@ namespace WpfApp2
             }
             displayString += $"本次訂購總共{orders.Count}項，{message}，售價{sellPrice}元";
 
+            // 在介面上顯示訂單詳細資訊
             textblock1.Text = displayString;
         }
 
         private void PlaceOrder(Dictionary<string, int> myOrders)
         {
+            // 清空訂單字典並根據使用者的選擇重新建立訂單
             myOrders.Clear();
             for (int i = 0; i < stackpanel_DrinkMenu.Children.Count; i++)
             {
@@ -145,9 +155,9 @@ namespace WpfApp2
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
+            // 記錄外帶選項的變更
             var rb = sender as RadioButton;
             if (rb.IsChecked == true) takeout = rb.Content.ToString();
-            //MessageBox.Show(takeout);
         }
     }
 }
