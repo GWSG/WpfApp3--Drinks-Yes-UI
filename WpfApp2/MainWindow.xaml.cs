@@ -2,162 +2,93 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Media;
 
 namespace WpfApp2
 {
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
     public partial class MainWindow : Window
     {
-        // 建立兩個字典，用來存儲飲料品項和訂單
         Dictionary<string, int> drinks = new Dictionary<string, int>();
-        Dictionary<string, int> orders = new Dictionary<string, int>();
-        string takeout = "";
-
+        Dictionary<string, int> order = new Dictionary<string, int>();
         public MainWindow()
         {
             InitializeComponent();
 
-            // 新增所有飲料品項到字典
+            //新增飲料品項
             AddNewDrink(drinks);
-
-            // 顯示飲料品項菜單
-            DisplayDrinkMenu(drinks);
-        }
-
-        private void DisplayDrinkMenu(Dictionary<string, int> myDrinks)
-        {
-            // 顯示飲料菜單的函式
-            foreach (var drink in myDrinks)
-            {
-                // 建立一個水平排列的 StackPanel
-                StackPanel sp = new StackPanel();
-                sp.Orientation = Orientation.Horizontal;
-
-                // 建立一個勾選框 (CheckBox) 來選擇飲料
-                CheckBox cb = new CheckBox();
-                cb.Content = $"{drink.Key} : {drink.Value}元"; // 顯示飲料名稱和價格
-                cb.Width = 200;
-                cb.FontFamily = new FontFamily("Consolas");
-                cb.FontSize = 18;
-                cb.Foreground = Brushes.Blue;
-                cb.Margin = new Thickness(5);
-
-                // 建立一個滑桿 (Slider) 來選擇數量
-                Slider sl = new Slider();
-                sl.Width = 100;
-                sl.Value = 0;
-                sl.Minimum = 0;
-                sl.Maximum = 10;
-                sl.IsSnapToTickEnabled = true;
-
-                // 建立一個標籤 (Label) 顯示選擇的數量
-                Label lb = new Label();
-                lb.Width = 50;
-                lb.Content = "0";
-                lb.FontFamily = new FontFamily("Consolas");
-                lb.FontSize = 18;
-                lb.Foreground = Brushes.Red;
-
-                // 將勾選框、滑桿、標籤添加到 StackPanel 中
-                sp.Children.Add(cb);
-                sp.Children.Add(sl);
-                sp.Children.Add(lb);
-
-                // 資料繫結，將滑桿的值繫結到標籤的內容
-                Binding myBinding = new Binding("Value");
-                myBinding.Source = sl;
-                lb.SetBinding(ContentProperty, myBinding);
-
-                // 將 StackPanel 添加到主介面的 StackPanel 中
-                stackpanel_DrinkMenu.Children.Add(sp);
-            }
         }
 
         private void AddNewDrink(Dictionary<string, int> myDrinks)
         {
-            // 新增飲料品項到字典
             myDrinks.Add("紅茶大杯", 60);
             myDrinks.Add("紅茶小杯", 40);
             myDrinks.Add("綠茶大杯", 60);
             myDrinks.Add("綠茶小杯", 40);
             myDrinks.Add("咖啡大杯", 80);
-            myDrinks.Add("咖啡小杯", 50);
-            myDrinks.Add("可樂大杯", 40);
-            myDrinks.Add("可樂小杯", 20);
+            myDrinks.Add("咖啡小杯", 60);
+        }
+
+        private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            var targetTextBox = sender as TextBox;
+
+            bool success = int.TryParse(targetTextBox.Text, out int amount);
+
+            if (!success) MessageBox.Show("請輸入整數", "輸入錯誤");
+            else if (amount <= 0) MessageBox.Show("請輸入正整數", "輸入錯誤");
+            else
+            {
+                var targetStackPanel = targetTextBox.Parent as StackPanel;
+                var targetLabel = targetStackPanel.Children[0] as Label;
+                string drinkName = targetLabel.Content.ToString();
+
+                if (order.ContainsKey(drinkName)) order.Remove(drinkName);
+                order.Add(drinkName, amount);
+            }
         }
 
         private void OrderButton_Click(object sender, RoutedEventArgs e)
         {
-            // 點擊訂購按鈕後的函式
-            PlaceOrder(orders);
-
             double total = 0.0;
             double sellPrice = 0.0;
-            string displayString = $"本次訂購為{takeout}，清單如下：\n";
-            string message = "";
+            string discountMessage = "";
+            string displayMessage = "訂購清單如下：\n";
 
-            // 計算訂單的總價格
-            foreach (KeyValuePair<string, int> item in orders)
+            foreach (var item in order)
             {
                 string drinkName = item.Key;
-                int amount = orders[drinkName];
+                int quantity = order[drinkName];
                 int price = drinks[drinkName];
-                total += price * amount;
-                displayString += $"{drinkName} X {amount}杯，每杯{price}元，總共{price * amount}元\n";
+
+                total += quantity * price;
+                displayMessage += $"{drinkName} X {quantity}杯，每杯{price}元，總共{price * quantity}元\n";
             }
 
-            // 根據總價格套用折扣
             if (total >= 500)
             {
-                message = "訂購滿500元以上者打8折";
+                discountMessage = "訂購滿500元以上者打8折";
                 sellPrice = total * 0.8;
             }
             else if (total >= 300)
             {
-                message = "訂購滿300元以上者打85折";
+                discountMessage = "訂購滿300元以上者打85折";
                 sellPrice = total * 0.85;
             }
             else if (total >= 200)
             {
-                message = "訂購滿200元以上者打9折";
+                discountMessage = "訂購滿200元以上者打9折";
                 sellPrice = total * 0.9;
             }
             else
             {
-                message = "訂購未滿200元以上者不打折";
+                discountMessage = "訂購未滿200元以上者不打折";
                 sellPrice = total;
             }
-            displayString += $"本次訂購總共{orders.Count}項，{message}，售價{sellPrice}元";
 
-            // 在介面上顯示訂單詳細資訊
-            textblock1.Text = displayString;
-        }
-
-        private void PlaceOrder(Dictionary<string, int> myOrders)
-        {
-            // 清空訂單字典並根據使用者的選擇重新建立訂單
-            myOrders.Clear();
-            for (int i = 0; i < stackpanel_DrinkMenu.Children.Count; i++)
-            {
-                StackPanel sp = stackpanel_DrinkMenu.Children[i] as StackPanel;
-                CheckBox cb = sp.Children[0] as CheckBox;
-                Slider sl = sp.Children[1] as Slider;
-                string drinkName = cb.Content.ToString().Substring(0, 4);
-                int quantity = Convert.ToInt32(sl.Value);
-
-                if (cb.IsChecked == true && quantity != 0)
-                {
-                    myOrders.Add(drinkName, quantity);
-                }
-            }
-        }
-
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            // 記錄外帶選項的變更
-            var rb = sender as RadioButton;
-            if (rb.IsChecked == true) takeout = rb.Content.ToString();
+            displayMessage += $"本次訂購總共{order.Count}項，總共{total}元，{discountMessage}，售價{sellPrice}元。\n";
+            textblock1.Text = displayMessage;
         }
     }
 }
