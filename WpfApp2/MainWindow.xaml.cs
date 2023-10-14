@@ -33,50 +33,53 @@ namespace WpfApp2// 命名空間
             DisplayDrinkMenu(drinks);
         }
 
-        // 在UI上顯示飲料菜單
+        // 定義一個名為 DisplayDrinkMenu 的方法，接收一個名為 myDrinks 的字典作為參數。
+        // 字典中的 key 是飲料名稱（string），value 是飲料價格（int）。
         private void DisplayDrinkMenu(Dictionary<string, int> myDrinks)
         {
-            foreach (var drink in myDrinks)
+            foreach (var drink in myDrinks)// 使用 foreach 迴圈遍歷字典 myDrinks
             {
-                // 創建水平排列的StackPanel
+                // 創建一個新的 StackPanel 控件
                 var sp = new StackPanel
                 {
-                    Orientation = Orientation.Horizontal
+                    Orientation = Orientation.Horizontal// 設置 StackPanel 的排列方向為水平
                 };
+                // 後續代碼通常會將其他 UI 元素（如 CheckBox，Slider 等）添加到這個 StackPanel 中
+
 
                 // 為每種飲料創建一個核取方塊
-                var cb = new CheckBox
+                var cb = new CheckBox// 為每種飲料創建一個 CheckBox 控件
                 {
-                    Content = $"{drink.Key} : {drink.Value}元",
-                    Width = 200,
-                    FontFamily = new FontFamily("Consolas"),
-                    FontSize = 18,
-                    Foreground = Brushes.Blue,
-                    Margin = new Thickness(5)
+                    Content = $"{drink.Key} : {drink.Value}元", // 設定 CheckBox 的內容，顯示飲料的名稱和價格
+                    Width = 200,// 設置 CheckBox 的寬度
+                    FontFamily = new FontFamily("Consolas"), // 使用 Consolas 字體
+                    FontSize = 18,// 設定字體大小為 18
+                    Foreground = Brushes.Blue,// 設置文本的前景色為藍色
+                    Margin = new Thickness(5)// 設置外邊距
                 };
 
                 // 創建一個滑塊以選擇數量
-                var sl = new Slider
+                var sl = new Slider// 創建一個 Slider 控件，用於選擇飲料的數量
                 {
-                    Width = 100,
-                    Value = 0,
-                    Minimum = 0,
-                    Maximum = 10,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    IsSnapToTickEnabled = true
+                    Width = 100,// 設置 Slider 的寬度
+                    Value = 0,// 初始化 Slider 的值為 0
+                    Minimum = 0, // 設置 Slider 的最小值為 0
+                    Maximum = 10,  // 設置 Slider 的最大值為 10
+                    VerticalAlignment = VerticalAlignment.Center,// 垂直對齊方式設為 Center
+                    IsSnapToTickEnabled = true// 啟用對刻度的吸附
                 };
 
-                // 創建一個標籤以顯示所選數量
+                // 創建一個 Label 控件，用於顯示選擇的飲料數量
                 var lb = new Label
                 {
-                    Width = 50,
-                    Content = "0",
-                    FontFamily = new FontFamily("Consolas"),
-                    FontSize = 18,
+                    Width = 50,// 設置 Label 的寬度
+                    Content = "0", // 初始化 Label 的內容為 "0"
+                    FontFamily = new FontFamily("Consolas"),// 使用 Consolas 字體
+                    FontSize = 18,// 設定字體大小為 18
                     Foreground = Brushes.Red// 設置文本的前景色為紅色。
                 };
 
-                // 將UI元素添加到StackPanel
+                // 將創建的 CheckBox、Slider 和 Label 控件添加到 StackPanel 的 Children 集合中
                 sp.Children.Add(cb);
                 sp.Children.Add(sl);
                 sp.Children.Add(lb);
