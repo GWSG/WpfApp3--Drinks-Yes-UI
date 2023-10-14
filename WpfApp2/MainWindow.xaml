@@ -16,9 +16,12 @@
         <StackPanel x:Name="stackpanel_DrinkMenu" Margin="20,83,0,0" Background="#FFE8FCD7" HorizontalAlignment="Left" Width="609" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
         </StackPanel>
         <Button x:Name="OrderButton" Content="確定訂購" HorizontalAlignment="Left" Margin="670,19,0,0" VerticalAlignment="Top" Height="45" Width="100" IsCancel="True" FontSize="18" Click="OrderButton_Click"/>
-        <TextBlock x:Name="displayTextBlock" Margin="20,0,20,20" TextWrapping="Wrap" Background="#FFFFDEDE" FontSize="16" Height="185" VerticalAlignment="Bottom" Padding="10,10,10,10"/>
 
+        <TextBlock x:Name="displayTextBlock" Margin="20,0,20,20" TextWrapping="Wrap" Background="#FFFFDEDE" FontSize="16" Height="185" VerticalAlignment="Bottom" Padding="10,10,10,10">
+            <ScrollBar Margin="751,423,22,23" FontSize="16"/>
+        </TextBlock>
 
+        
     </Grid>
 
 
