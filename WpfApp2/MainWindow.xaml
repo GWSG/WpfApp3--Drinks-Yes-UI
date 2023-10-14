@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:WpfApp2"
         mc:Ignorable="d"
         Title="飲料點餐系統" Height="645" Width="790">
+    <Window.Background>
+        <ImageBrush ImageSource="/81762.jpg"/>
+    </Window.Background>
     <Grid>
         <GroupBox Header="內用/外帶" Margin="20,10,0,0" HorizontalAlignment="Left" Width="615" Background="#FFF7F7E6" Height="63" VerticalAlignment="Top">
             <StackPanel Height="37" Orientation="Horizontal">
@@ -17,7 +20,7 @@
         </StackPanel>
         <Button x:Name="OrderButton" Content="確定訂購" HorizontalAlignment="Left" Margin="670,19,0,0" VerticalAlignment="Top" Height="45" Width="100" IsCancel="True" FontSize="18" Click="OrderButton_Click"/>
 
-        <TextBlock x:Name="displayTextBlock" Margin="20,0,20,20" TextWrapping="Wrap" Background="#FFFFDEDE" FontSize="16" Height="185" VerticalAlignment="Bottom" Padding="10,10,10,10">
+        <TextBlock x:Name="displayTextBlock" Margin="20,0,20,20" TextWrapping="Wrap" Background="#FF61FFD0" FontSize="16" Height="185" VerticalAlignment="Bottom" Padding="10,10,10,10">
             <ScrollBar Margin="751,423,22,23" FontSize="16"/>
         </TextBlock>
 
