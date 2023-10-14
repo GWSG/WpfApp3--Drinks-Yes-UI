@@ -73,7 +73,7 @@ namespace WpfApp2// 命名空間
                     Content = "0",
                     FontFamily = new FontFamily("Consolas"),
                     FontSize = 18,
-                    Foreground = Brushes.Red
+                    Foreground = Brushes.Red// 設置文本的前景色為紅色。
                 };
 
                 // 將UI元素添加到StackPanel
@@ -126,40 +126,40 @@ namespace WpfApp2// 命名空間
         // 在UI上顯示訂單詳細信息
         private void DisplayOrder(Dictionary<string, int> myOrders)
         {
-            displayTextBlock.Inlines.Clear();
-            Run titleString = new Run
+            displayTextBlock.Inlines.Clear();// 清空TextBlock的內容
+            Run titleString = new Run // 創建用於顯示訂單標題的Run對象
             {
                 Text = "您所訂購的飲品為 ",
                 FontSize = 16,
                 Foreground = Brushes.Blue
             };
 
-            Run takeoutString = new Run
+            Run takeoutString = new Run // 創建用於顯示外帶選項的Run對象
             {
                 Text = $"{takeout}",
-                FontSize = 16,
-                FontWeight = FontWeights.Bold
+                FontSize = 16,// 設置字體大小為 16。
+                FontWeight = FontWeights.Bold// 設置字體權重為 Bold，使文本看起來更加粗體。
             };
 
             // 添加標題和外帶信息到顯示中
-            displayTextBlock.Inlines.Add(titleString);
+            displayTextBlock.Inlines.Add(titleString);// 將標題和外帶選項添加到TextBlock中
             displayTextBlock.Inlines.Add(takeoutString);
             displayTextBlock.Inlines.Add(new Run() { Text = " ，訂購明細如下: \n", FontSize = 16 });
 
-            double total = 0.0;
-            double sellPrice = 0.0;
-            string discountString = "";
+            double total = 0.0;// 用於存儲總價格
+            double sellPrice = 0.0; // 用於存儲售價
+            string discountString = ""; // 用於存儲折扣信息
 
             int i = 1;
             foreach (var item in myOrders)
             {
-                string drinkName = item.Key;
-                int quantity = myOrders[drinkName];
-                int price = drinks[drinkName];
-                total += price * quantity;
-                // 顯示每個訂購的項目及其詳細信息
+                string drinkName = item.Key;// 獲取飲料名稱
+                int quantity = myOrders[drinkName];// 獲取飲料數量
+                int price = drinks[drinkName];// 獲取飲料價格
+                total += price * quantity;// 更新總價格
+                
                 displayTextBlock.Inlines.Add(new Run() { Text = $"飲料品項{i}： {drinkName} X {quantity}杯，每杯{price}元，總共{price * quantity}元\n" });
-                i++;
+                i++;// 顯示每個訂購的項目及其詳細信息
             }
 
             // 計算並顯示折扣和總價
@@ -184,68 +184,90 @@ namespace WpfApp2// 命名空間
                 sellPrice = total;
             }
 
-            // 顯示訂單摘要
+            // 創建一個新的 Italic 物件，其中包含一個 Run 物件來設定顯示文本。
+            // Run 物件允許我們對單一的文字串進行豐富的格式設置。
             Italic summaryString = new Italic(new Run
             {
-                Text = $"本次訂購總共{myOrders.Count}項，{discountString}，售價{sellPrice}元",
-                FontSize = 16,
-                FontWeight = FontWeights.Bold,
-                Foreground = Brushes.Red
+                Text = $"本次訂購總共{myOrders.Count}項，{discountString}，售價{sellPrice}元",// 使用字符串插值來組合本次訂購的摘要信息。
+                FontSize = 16, // 設置字體大小為 16。
+                FontWeight = FontWeights.Bold, // 設置字體權重為 Bold，使文本看起來更加粗體。
+                Foreground = Brushes.Red // 設置文本的前景色為紅色。
             });
             displayTextBlock.Inlines.Add(summaryString);
+            // 將創建的 Italic 物件（即 summaryString）添加到 displayTextBlock 的 Inlines 集合中。
+            // 這樣可以將這段富文本顯示在 displayTextBlock 控件中。
         }
 
         // 將選擇的飲料放入 'orders' 字典
         private void PlaceOrder(Dictionary<string, int> myOrders)
         {
-            myOrders.Clear();
-            for (int i = 0; i < stackpanel_DrinkMenu.Children.Count; i++)
+            
+            myOrders.Clear();// 清空當前的訂單
+
+            // 使用 for 迴圈遍歷 stackpanel_DrinkMenu 的所有子元件。
+            // 這通常會是一些 StackPanel，其中包含飲料選項的 CheckBox 和 Slider。
+            for (int i = 0; i < stackpanel_DrinkMenu.Children.Count; i++)// 遍歷所有子元件（飲料選項）在 stackpanel_DrinkMenu 中
             {
+                // 從子元件列表中獲取第 i 個元件，並將其轉換為 StackPanel 類型。
                 var sp = stackpanel_DrinkMenu.Children[i] as StackPanel;
+
+                // 並將它們轉換為 CheckBox 和 Slider 類型。
                 var cb = sp.Children[0] as CheckBox;
                 var sl = sp.Children[1] as Slider;
-                string drinkName = cb.Content.ToString().Substring(0, 4);
-                int quantity = Convert.ToInt32(sl.Value);
 
-                if (cb.IsChecked == true && quantity != 0)
+                // 從 CheckBox 的 Content 屬性中提取飲料的名稱。
+                // 我們假設名稱是前 4 個字元。
+                string drinkName = cb.Content.ToString().Substring(0, 4);// 提取飲料名稱和數量
+                int quantity = Convert.ToInt32(sl.Value); // 從 Slider 的 Value 屬性中獲取飲料的數量，並將其轉換為整數。
+
+                if (cb.IsChecked == true && quantity != 0)  // 檢查 CheckBox 是否被選中，以及 Slider 的值（即數量）是否不為 0。
                 {
-                    myOrders.Add(drinkName, quantity);
+                    myOrders.Add(drinkName, quantity);// 如果條件成立，則將這個飲料和其數量添加到 myOrders 字典中。
                 }
             }
         }
 
-        // 用於選擇外帶的單選按鈕事件處理程序
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        // 這是一個事件處理程序，專門用於處理 RadioButton 的 Checked 事件
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)// RadioButton 的事件處理程序，用於設定外帶選項
         {
-            var rb = sender as RadioButton;
+            // 'sender' 參數是觸發此事件的 UI 元素，這裡是一個 RadioButton。
+            
+            var rb = sender as RadioButton;// 我們使用 'as' 運算符將它轉型為 RadioButton 類型。
+            // 檢查 RadioButton 是否被選中。
+            // 如果是，則將其內容（Content 屬性）轉換為字符串，
+            // 並儲存到 'takeout' 變數中。
             if (rb.IsChecked == true) takeout = rb.Content.ToString();
-            //MessageBox.Show(takeout);
+            // 下面這行代碼是被註釋掉的，它會顯示一個消息框來顯示 'takeout' 變數的值。
+            // 這主要用於調試 MessageBox.Show(takeout); 
         }
 
-        // 将订单写入文本文件
+        // 將訂單保存到文件中
         private void SaveOrderToFile(Dictionary<string, int> myOrders)
         {
-            string filename = "C:\\Users\\ADMIN\\source\\repos\\GWSG\\WpfApp3--Drinks-Yes-UI\\WpfApp2\\w3.txt"; // 指定文件名
+            string filename = "C:\\Users\\ADMIN\\source\\repos\\GWSG\\WpfApp3--Drinks-Yes-UI\\WpfApp2\\w3.txt"; // 設定要保存的文件的路徑
 
             try
             {
+                // 開啟文件並寫入訂單信息
+                // 使用 StreamWriter 來打開或創建一個指定編碼（UTF-8）的文件
                 using (StreamWriter writer = new StreamWriter(filename, false, Encoding.UTF8))
                 {
-                    writer.WriteLine("訂單明細:");
-                    foreach (var item in myOrders)
+                    writer.WriteLine("訂單明細:");// 寫入訂單的標題到文件
+                    foreach (var item in myOrders) // 遍歷訂單中的每一個項目（Dictionary 的每一個鍵值對）
                     {
-                        string drinkName = item.Key;
-                        int quantity = item.Value;
-                        int price = drinks[drinkName];
-                        writer.WriteLine($"{drinkName} X {quantity}杯，每杯{price}元，總共{price * quantity}元");
+                        string drinkName = item.Key;// 從 Dictionary 中獲取飲料名稱（Key）
+                        int quantity = item.Value;// 從 Dictionary 中獲取數量（Value）
+
+                        int price = drinks[drinkName];// 從另一個 Dictionary（drinks）中獲取該飲料的價格
+                        writer.WriteLine($"{drinkName} X {quantity}杯，每杯{price}元，總共{price * quantity}元");// 寫入飲料的詳細信息到文件
                     }
-                    writer.Close();
-                    MessageBox.Show("訂單已成功儲存到檔案: " + filename, "訂單儲存成功", MessageBoxButton.OK, MessageBoxImage.Information);
+                    writer.Close();// 關閉 StreamWriter 物件，釋放資源
+                    MessageBox.Show("訂單已成功儲存到檔案: " + filename, "訂單儲存成功", MessageBoxButton.OK, MessageBoxImage.Information);// 顯示保存成功的消息
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex)// 如果在嘗試寫入文件過程中發生異常（例如，文件不存在，沒有寫入權限等），則會執行此塊
             {
-                MessageBox.Show("儲存訂單時發生錯誤: " + ex.Message, "錯誤", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("儲存訂單時發生錯誤: " + ex.Message, "錯誤", MessageBoxButton.OK, MessageBoxImage.Error);// 如果有錯誤，顯示錯誤信息
             }
         }
     }
