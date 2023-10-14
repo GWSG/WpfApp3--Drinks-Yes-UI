@@ -1,17 +1,17 @@
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.IO;
+using Microsoft.Win32; // 使用 Microsoft 的 Windows 注冊表類別，用於檔案對話框
+using System; // 引入基礎的 System 命名空間
+using System.Collections.Generic; // 使用泛型集合，例如 Dictionary
+using System.IO; // 使用文件輸入輸出
 using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
+using System.Windows; // WPF 基礎類
+using System.Windows.Controls; // WPF 控件
+using System.Windows.Data; // 用於數據綁定
 using System.Windows.Documents;
-using System.Windows.Media;
+using System.Windows.Media; // 繪圖和顏色
 
-namespace WpfApp2
+namespace WpfApp2// 命名空間
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window // 主窗口類繼承自 Window
     {
         // 字典，用於儲存飲料名稱和價格
         Dictionary<string, int> drinks = new Dictionary<string, int>();
@@ -22,9 +22,9 @@ namespace WpfApp2
         // 用於儲存外帶選項的變數
         string takeout = "";
 
-        public MainWindow()
+        public MainWindow()// 構造函數
         {
-            InitializeComponent();
+            InitializeComponent();// 初始化XAML元素
 
             // 將飲料項目添加到 'drinks' 字典中
             AddNewDrink(drinks);
@@ -38,6 +38,7 @@ namespace WpfApp2
         {
             foreach (var drink in myDrinks)
             {
+                // 創建水平排列的StackPanel
                 var sp = new StackPanel
                 {
                     Orientation = Orientation.Horizontal
@@ -93,18 +94,18 @@ namespace WpfApp2
         // 從文件中添加新的飲料到 'drinks' 字典
         private void AddNewDrink(Dictionary<string, int> myDrinks)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "CSV文件|*.csv|文本文件|*.txt|所有文件|*.*";
-            if (openFileDialog.ShowDialog() == true)
+            OpenFileDialog openFileDialog = new OpenFileDialog();// 創建文件選擇對話框
+            openFileDialog.Filter = "CSV文件|*.csv|文本文件|*.txt|所有文件|*.*";// 設置對話框的文件過濾選項
+            if (openFileDialog.ShowDialog() == true)// 顯示對話框
             {
-                string filename = openFileDialog.FileName;
-                string[] lines = File.ReadAllLines(filename);
-                foreach (var line in lines)
+                string filename = openFileDialog.FileName;// 獲取選定文件的完整路徑
+                string[] lines = File.ReadAllLines(filename);// 讀取文件的所有行
+                foreach (var line in lines)// 遍歷每一行
                 {
-                    string[] tokens = line.Split(',');
-                    string drinkName = tokens[0];
-                    int price = Convert.ToInt32(tokens[1]);
-                    myDrinks.Add(drinkName, price);
+                    string[] tokens = line.Split(',');// 使用逗號分隔每一行
+                    string drinkName = tokens[0];// 提取飲料名稱和價格
+                    int price = Convert.ToInt32(tokens[1]); // 將價格從字符串轉為整數
+                    myDrinks.Add(drinkName, price);// 添加到 'drinks' 字典
                 }
             }
         }
