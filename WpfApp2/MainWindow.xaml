@@ -1,3 +1,4 @@
+<!-- 定義WPF窗口的主要屬性，其中包括類名、各種命名空間和大小 -->
 <Window x:Class="WpfApp2.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -5,39 +6,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
         mc:Ignorable="d"
-        Title="飲料點餐系統" Height="645" Width="790"><!-- 設定視窗的標題、高度和寬度 -->
-  
+        Title="飲料點餐系統" Height="645" Width="790">
 
-    <Grid><!-- 主要的布局容器 -->
-
-        <Grid.Background><!-- 設定背景 -->
-            <ImageBrush ImageSource="/81762.jpg"/><!-- 使用圖片作為背景 -->
+    <!-- Grid容器，用於組織界面元素 -->
+    <Grid>
+        <!-- 設置Grid的背景為一個圖片 -->
+        <Grid.Background>
+            <ImageBrush ImageSource="/81762.jpg"/>
         </Grid.Background>
-        
+
+        <!-- 群組框，用於將相關控件組合在一起 -->
         <GroupBox Header="內用/外帶" Margin="20,10,0,0" HorizontalAlignment="Left" Width="615" Background="#FFF7F7E6" Height="63" VerticalAlignment="Top">
-        <!-- 群組框，用於內用/外帶的選擇 -->
+            <!-- 使用StackPanel來水平排列RadioButton -->
             <StackPanel Height="37" Orientation="Horizontal">
+                <!-- 內用選項的單選按鈕 -->
                 <RadioButton Content="內用" IsChecked="True" FontSize="18" VerticalContentAlignment="Center" Checked="RadioButton_Checked" Width="100" Height="40"/>
-                 <!-- 內用選項 -->
+                <!-- 外帶選項的單選按鈕 -->
                 <RadioButton Content="外帶" FontSize="18" VerticalContentAlignment="Center" Checked="RadioButton_Checked" Width="100" Height="40"/>
-                <!-- 外帶選項 -->
-                </StackPanel>
+            </StackPanel>
         </GroupBox>
+
+        <!-- 一個空的StackPanel，預計用於顯示飲料選單 -->
         <StackPanel x:Name="stackpanel_DrinkMenu" Margin="20,83,0,0" Background="#FFE8FCD7" HorizontalAlignment="Left" Width="609" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
         </StackPanel>
-        <!-- 飲料選單的 StackPanel -->
 
+        <!-- 確定訂購按鈕 -->
         <Button x:Name="OrderButton" Content="確定訂購" HorizontalAlignment="Left" Margin="670,19,0,0" VerticalAlignment="Top" Height="45" Width="100" IsCancel="True" FontSize="18" Click="OrderButton_Click"/>
-        <!-- 訂購按鈕 -->
-        
+
+        <!-- 用於顯示訊息的TextBlock -->
         <TextBlock x:Name="displayTextBlock" Margin="20,0,20,20" TextWrapping="Wrap" Background="#FF61FFD0" FontSize="16" Height="185" VerticalAlignment="Bottom" Padding="10,10,10,10">
-        <!-- 用於顯示訂單詳情的 TextBlock -->
-            <ScrollBar Margin="751,423,22,23" FontSize="16"/><!-- 滾動條 -->
+            <!-- ScrollBar，但在此處並沒有實際功能，可能是錯誤或者未完成的代碼 -->
+            <ScrollBar Margin="751,423,22,23" FontSize="16"/>
         </TextBlock>
-
-
     </Grid>
-
-
-
 </Window>
